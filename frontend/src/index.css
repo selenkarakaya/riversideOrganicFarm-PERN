@@ -1,1 +1,118 @@
 @import "tailwindcss";
+
+@theme {
+  --color-lightGreen: #d9edbf;
+  --color-mediumGreen: #90d26d;
+  --color-darkGreen: #2c7865;
+  --color-greens: #004f52;
+  --color-lightOrange: #ff914d;
+  --color-mediumOrange: #ff9800;
+  --color-lightBg: #fefaf6;
+
+  /* ekstra */
+  --color-primary: #3a7d44;
+  --color-secondary: #a0c878;
+  --color-light: #ffc074;
+  --color-brown: #ae431e;
+  --color-orange: #f97a00;
+  --color-terracotta: #c84c05;
+
+  --font-imbue: "Imbue", sans-serif;
+
+  --size-45: 45rem;
+  --size-35: 35rem;
+  --size-25: 25rem;
+}
+body {
+  font-family: var(--font-imbue);
+}
+
+.box {
+  background-color: #90d26d;
+  width: 12rem;
+  animation: a1 5s linear infinite;
+}
+
+@keyframes a1 {
+  to {
+    width: 20rem;
+  }
+}
+
+.home-main {
+  background-image: url("./components/layouts/image/home-main.jpg");
+}
+
+.home-Breakfast {
+  background-image: url("./components/layouts/image/home-Breakfast.png");
+}
+
+.home-Snacks {
+  background-image: url("./components/layouts/image/home-Snacks.png");
+}
+
+.home-Lunch {
+  background-image: url("./components/layouts/image/home-Lunch.png");
+}
+
+.home-Dinner {
+  background-image: url("./components/layouts/image/home-Dinner.png");
+}
+
+.home-started {
+  background-image: url("./components/layouts/image/home-started.png");
+}
+
+.gift-main {
+  background-image: url("./components/layouts/image/gift_main.png");
+}
+
+.gift-card {
+  background-image: url("./components/layouts/image/gift_card.png");
+}
+
+.gift-slogan {
+  background-image: url("./components/layouts/image/gift_slogan.png");
+}
+
+/* sign in, sign up, forget password form */
+
+.nameInput {
+  background: url("./components/layouts/svg/badgeIcon.svg") 2.5% center
+    no-repeat;
+}
+
+.emailInput {
+  background: url("./components/layouts/svg/personIcon.svg") 2.5% center
+    no-repeat;
+}
+.passwordInput {
+  background: url("./components/layouts/svg/lockIcon.svg") 2.5% center no-repeat;
+}
+.passwordInputDiv {
+  position: relative;
+}
+.showPassword {
+  cursor: pointer;
+  position: absolute;
+  top: -4%;
+  right: 0%;
+  padding: 1rem;
+}
+
+/* profile page */
+
+.profile {
+  padding: 1rem;
+  width: 100%;
+}
+.profileActive {
+  background-color: rgb(129 140 248);
+  color: antiquewhite;
+  padding: 1rem;
+  width: 100%;
+}
+
+.boxShadow {
+  box-shadow: 5px 7px 10px 3px rgba(0, 79, 82, 0.5);
+}

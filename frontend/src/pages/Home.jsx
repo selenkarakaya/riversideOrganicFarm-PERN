@@ -8,11 +8,12 @@ import { Typewriter } from "react-simple-typewriter";
 
 function Home() {
   return (
-    <>
+    <div>
       {/* Main Section */}
+
       <section
         id="main"
-        className="home-main w-full h-6/12 bg-cover bg-center bg-no-repeat overflow-x-hidden"
+        className="home-main   h-[25rem] md:h-[45rem] bg-cover bg-center bg-no-repeat overflow-x-hidden"
       >
         <div className="flex flex-col space-y-12 justify-center items-center w-full h-full text-white">
           <div>
@@ -178,7 +179,7 @@ function Home() {
           </Link>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

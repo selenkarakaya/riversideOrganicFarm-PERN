@@ -5,12 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 // Componentleri import etmeyi unutma
 import Home from "./pages/Home";
+import Navbar from "./components/NavBar";
 //import Footer from "./components/Footer";
 
 function App() {
   return (
     <>
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>

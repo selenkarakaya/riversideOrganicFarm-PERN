@@ -1,5 +1,7 @@
 @import "tailwindcss";
-
+* {
+  box-sizing: border-box;
+}
 @theme {
   --color-lightGreen: #d9edbf;
   --color-mediumGreen: #90d26d;
@@ -23,6 +25,7 @@
   --size-35: 35rem;
   --size-25: 25rem;
 }
+
 body {
   font-family: var(--font-imbue);
 }
@@ -40,39 +43,39 @@ body {
 }
 
 .home-main {
-  background-image: url("./components/layouts/image/home-main.jpg");
+  background-image: url("./assets/images/home-main.jpg");
 }
 
 .home-Breakfast {
-  background-image: url("./components/layouts/image/home-Breakfast.png");
+  background-image: url("./assets/images/home-Breakfast.png");
 }
 
 .home-Snacks {
-  background-image: url("./components/layouts/image/home-Snacks.png");
+  background-image: url("./assets/images/home-Snacks.png");
 }
 
 .home-Lunch {
-  background-image: url("./components/layouts/image/home-Lunch.png");
+  background-image: url("./assets/images/home-Lunch.png");
 }
 
 .home-Dinner {
-  background-image: url("./components/layouts/image/home-Dinner.png");
+  background-image: url("./assets/images/home-Dinner.png");
 }
 
 .home-started {
-  background-image: url("./components/layouts/image/home-started.png");
+  background-image: url("./assets/images/home-started.png");
 }
 
 .gift-main {
-  background-image: url("./components/layouts/image/gift_main.png");
+  background-image: url("./assets/images/gift_main.png");
 }
 
 .gift-card {
-  background-image: url("./components/layouts/image/gift_card.png");
+  background-image: url("./assets/images/gift_card.png");
 }
 
 .gift-slogan {
-  background-image: url("./components/layouts/image/gift_slogan.png");
+  background-image: url("./assets/images/gift_slogan.png");
 }
 
 /* sign in, sign up, forget password form */

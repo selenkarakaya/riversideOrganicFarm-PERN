@@ -54,3 +54,12 @@ VALUES
 ('replace-with-recipe-uuid', 'Sugar', 100, 'g'),
 ('replace-with-recipe-uuid', 'Milk', 200, 'ml'),
 ('replace-with-recipe-uuid', 'Flour', 1, 'cup');
+
+-- Wishlist table stores recipes that users want to save for later
+CREATE TABLE wishlist (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),           -- unique identifier for each wishlist entry
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,    -- references the user who added the recipe
+    recipe_id INTEGER REFERENCES recipes(id) ON DELETE CASCADE, -- references the saved recipe
+    created_at TIMESTAMPTZ DEFAULT now(),                   -- timestamp when the recipe was added to wishlist
+    UNIQUE(user_id, recipe_id)                              -- ensures the same user cannot save the same recipe twice
+);

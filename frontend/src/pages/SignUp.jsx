@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
-import { ReactComponent as ArrowRightIcon } from "../components/layouts/svg/keyboardArrowRightIcon.svg";
-import visibilityIcon from "../components/layouts/svg/visibilityIcon.svg";
+import arrowRightIcon from "../assets/svg/keyboardArrowRightIcon.svg";
+import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 function SignUp() {
   return (
@@ -54,12 +54,11 @@ function SignUp() {
             <p className="text-right">Forgot Password</p>
           </Link>
           <div className="flex justify-center items-center space-x-3 mt-3">
-            <button className="flex justify-center items-center space-x-2 p-2 bg-darkGreen  rounded-2xl hover:bg-greens hover:text-white">
+            <button className="flex justify-center items-center space-x-2 p-2 bg-darkGreen rounded-2xl hover:bg-greens hover:text-white">
               <p className="text-xl">Sign Up</p>
-              <ArrowRightIcon width="1.5rem" height="1.5rem" />
+              <img src={arrowRightIcon} alt="arrow right" className="w-6 h-6" />
             </button>
             <span>or</span>
-            <OAuth />
           </div>
         </form>
 

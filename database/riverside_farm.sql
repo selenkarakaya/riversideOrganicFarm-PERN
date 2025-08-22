@@ -63,3 +63,45 @@ CREATE TABLE wishlist (
     created_at TIMESTAMPTZ DEFAULT now(),                   -- timestamp when the recipe was added to wishlist
     UNIQUE(user_id, recipe_id)                              -- ensures the same user cannot save the same recipe twice
 );
+
+
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+INSERT INTO categories (name) VALUES
+('Breakfast'),
+('Lunch'),
+('Dinner'),
+('Snack'),
+('Dessert'),
+('Vegetarian'),
+('Vegan'),
+('Seafood'),
+('Poultry'),
+('Beef'),
+('Pork'),
+('Pasta'),
+('Salad'),
+('Soup'),
+('Appetizer'),
+('Street Food'),
+('Curry'),
+('Pizza'),
+('Rice Dish'),
+('Baked Goods');
+
+CREATE TABLE recipe_categories (
+    recipe_id INT REFERENCES recipes(id),
+    category_id INT REFERENCES categories(id),
+    PRIMARY KEY(recipe_id, category_id)
+);
+
+
+-- 3️⃣ Select all recipe titles that belong to category ID 6 (e.g., Vegetarian)
+SELECT r.title                                     -- select the 'title' column from recipes
+FROM recipes r                                     -- 'r' is an alias for the recipes table
+JOIN recipe_categories rc ON r.id = rc.recipe_id  -- join with recipe_categories table on recipe_id
+JOIN categories c ON rc.category_id = c.id        -- join with categories table on category_id
+WHERE c.id = 6;                                   -- filter only recipes that belong to category with ID 6

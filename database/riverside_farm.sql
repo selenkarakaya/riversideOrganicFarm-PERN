@@ -7,7 +7,7 @@ CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),  -- unique identifier for each user
     email CITEXT NOT NULL UNIQUE,                     -- email, case-insensitive and unique
     password_hash TEXT NOT NULL,                     -- hashed password
-    full_name TEXT,                                  -- full name of the user
+    full_name TEXT NOT NULL,                                  -- full name of the user
     role TEXT NOT NULL DEFAULT 'user',               -- role, e.g., user or admin
     address TEXT,                                    -- user address
     phone_number TEXT,                               -- optional phone number
@@ -22,7 +22,7 @@ VALUES ('testuser@example.com', 'hashed_password_here', 'Test User', '123 Rivers
 
 -- 3️⃣ Recipes table (user-created)
 CREATE TABLE recipes (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),            -- unique identifier
+    id SERIAL PRIMARY KEY,            -- unique identifier
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,     -- reference to the creator
     title TEXT NOT NULL,                                     -- recipe title
     description TEXT,                                       -- recipe description
@@ -39,21 +39,21 @@ VALUES ('replace-with-user-uuid', 'Test Recipe', 'Delicious test recipe', 2, 15,
 
 -- 4️⃣ Ingredients table (normalized, with units)
 CREATE TABLE ingredients (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),           -- unique identifier
-    recipe_id UUID REFERENCES recipes(id) ON DELETE CASCADE, -- reference to the recipe
-    name TEXT NOT NULL,                                     -- ingredient name
-    amount NUMERIC NOT NULL,                                -- ingredient amount
+    id SERIAL PRIMARY KEY,                                   -- unique identifier
+    recipe_id INT REFERENCES recipes(id) ON DELETE CASCADE,  -- reference to the recipe
+    name TEXT NOT NULL,                                      -- ingredient name
+    amount NUMERIC NOT NULL,                                 -- ingredient amount
     unit TEXT CHECK (unit IN ('g', 'ml', 'cup', 'tsp', 'tbsp', 'pcs')),  -- unit type
-    created_at TIMESTAMPTZ DEFAULT now(),                   -- creation timestamp
-    updated_at TIMESTAMPTZ DEFAULT now()                    -- last update timestamp
+    created_at TIMESTAMPTZ DEFAULT now(),                    -- creation timestamp
+    updated_at TIMESTAMPTZ DEFAULT now()                     -- last update timestamp
 );
 
 -- Optional: sample ingredients for testing
 INSERT INTO ingredients (recipe_id, name, amount, unit)
 VALUES
-('replace-with-recipe-uuid', 'Sugar', 100, 'g'),
-('replace-with-recipe-uuid', 'Milk', 200, 'ml'),
-('replace-with-recipe-uuid', 'Flour', 1, 'cup');
+('replace-with-recipe-id', 'Sugar', 100, 'g'),
+('replace-with-recipe-id', 'Milk', 200, 'ml'),
+('replace-with-recipe-id', 'Flour', 1, 'cup');
 
 -- Wishlist table stores recipes that users want to save for later
 CREATE TABLE wishlist (
@@ -63,7 +63,6 @@ CREATE TABLE wishlist (
     created_at TIMESTAMPTZ DEFAULT now(),                   -- timestamp when the recipe was added to wishlist
     UNIQUE(user_id, recipe_id)                              -- ensures the same user cannot save the same recipe twice
 );
-
 
 
 CREATE TABLE categories (

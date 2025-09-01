@@ -1,28 +1,33 @@
 const express = require("express");
 const cors = require("cors");
+const { errorHandler } = require("./middlewares/errorHandler");
+const userRoutes = require("./routes/userRoutes");
+const sequelize = require("./db");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-const allowedOrigins = [
-  "http://localhost:5173", // frontend
-];
-
+// ✅ Middleware
+const allowedOrigins = ["http://localhost:5173"]; // frontend
 app.use(
   cors({
     origin: allowedOrigins,
     credentials: true, // cookie / auth
   })
 );
-// Main route
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// ✅ Routes
 app.get("/", (req, res) => {
   res.send("Riverside Farm Backend is running!");
 });
 
-const sequelize = require("./db");
+app.use("/api/users", userRoutes);
 
+// ✅ Error middleware (after all routes) ✅
+app.use(errorHandler);
+
+// ✅ Test the DB connection
 async function testDB() {
   try {
     await sequelize.authenticate();
@@ -31,8 +36,8 @@ async function testDB() {
     console.error("Unable to connect to the database:", err);
   }
 }
-
 testDB();
 
+// ✅ Start the server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

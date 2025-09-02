@@ -11,8 +11,8 @@ const protect = asyncHandler(async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("JWT decoded:", decoded); // <--- buraya bak
-    req.user = decoded; // id ve email gibi bilgileri decoded'dan al
+
+    req.user = decoded;
 
     next();
   } catch (err) {

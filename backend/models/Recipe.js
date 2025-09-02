@@ -1,6 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db");
 const User = require("./User");
+const Category = require("./Category");
+const RecipeCategory = require("./RecipeCategory");
 
 const Recipe = sequelize.define(
   "Recipe",
@@ -63,5 +65,13 @@ const Recipe = sequelize.define(
 );
 
 Recipe.belongsTo(User, { foreignKey: "user_id" });
+Recipe.belongsToMany(Category, {
+  through: RecipeCategory,
+  foreignKey: "recipe_id",
+});
+Category.belongsToMany(Recipe, {
+  through: RecipeCategory,
+  foreignKey: "category_id",
+});
 
 module.exports = Recipe;

@@ -104,3 +104,9 @@ FROM recipes r                                     -- 'r' is an alias for the re
 JOIN recipe_categories rc ON r.id = rc.recipe_id  -- join with recipe_categories table on recipe_id
 JOIN categories c ON rc.category_id = c.id        -- join with categories table on category_id
 WHERE c.id = 6;                                   -- filter only recipes that belong to category with ID 6
+
+
+SELECT setval(pg_get_serial_sequence('recipes', 'id'), 299);
+-- Fixes the auto-increment for the recipes table.
+-- Needed because the table already has records, and the sequence was lower than the max id.
+--Sets the next inserted recipe ID to 300, preventing “id must be unique” errors.

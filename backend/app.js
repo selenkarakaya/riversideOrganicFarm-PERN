@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/categories", require("./routes/categoryRoutes"));
 
 // ✅ Error middleware (after all routes) ✅
 app.use(errorHandler);

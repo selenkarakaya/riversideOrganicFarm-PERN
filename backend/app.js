@@ -3,6 +3,7 @@ const cors = require("cors");
 const { errorHandler } = require("./middlewares/errorHandler");
 const userRoutes = require("./routes/userRoutes");
 const sequelize = require("./db");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cookieParser());
 // ✅ Routes
 app.get("/", (req, res) => {
   res.send("Riverside Farm Backend is running!");

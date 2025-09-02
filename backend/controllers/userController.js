@@ -66,25 +66,54 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid  password");
   }
 
-  // 4 create token
   const token = jwt.sign(
     { id: user.id, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  // 5. Response
+  // ✅ Cookie içine token
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 1000 * 60 * 60 * 24, // 1 gün
+  });
+
   res.status(200).json({
     message: "Login successful",
     user: {
       id: user.id,
-      email: user.email,
       full_name: user.full_name,
-      phone: user.phone,
-      address: user.address,
+      email: user.email,
     },
-    token,
   });
 });
 
-module.exports = { registerUser, loginUser };
+const getUserProfile = asyncHandler(async (req, res) => {
+  // req.user JWT içerisinden geliyor
+  const user = await User.findByPk(req.user.id, {
+    attributes: ["id", "full_name", "email", "role"], // istediğin alanlar
+  });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  res.json(user);
+});
+
+const logoutUser = (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: new Date(0), // cookie’yi hemen sil
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+module.exports = { logoutUser };
+
+module.exports = { registerUser, loginUser, getUserProfile, logoutUser };

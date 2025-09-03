@@ -6,22 +6,6 @@ const axiosConfig = {
   withCredentials: true,
 };
 
-// const register = async (userData) => {
-//   const payload = {
-//     full_name: userData.name,
-//     email: userData.email,
-//     password: userData.password, // backend hashleyecek
-//   };
-
-//   console.log("📤 Register payload:", payload); // debug
-//   const response = await axios.post(
-//     `${API_URL}/register`,
-//     payload,
-//     axiosConfig
-//   );
-//   return response.data;
-// };
-
 const register = async (userData) => {
   // artık userData direkt backend alanlarıyla uyumlu
   const response = await axios.post(

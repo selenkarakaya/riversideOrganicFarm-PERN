@@ -10,7 +10,7 @@ const User = sequelize.define(
       primaryKey: true,
     },
     email: {
-      type: DataTypes.CITEXT, // PostgreSQL CITEXT tipi için
+      type: DataTypes.CITEXT,
       allowNull: false,
       unique: true,
     },

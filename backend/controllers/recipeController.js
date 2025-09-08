@@ -9,7 +9,14 @@ const Ingredient = require("../models/Ingredient");
 const getRecipes = asyncHandler(async (req, res) => {
   // 1️⃣ Fetch all recipes with selected attributes
   const recipes = await Recipe.findAll({
-    attributes: ["id", "title", "servings", "prep_minutes", "cook_minutes"],
+    attributes: [
+      "id",
+      "title",
+      "servings",
+      "prep_minutes",
+      "cook_minutes",
+      "description",
+    ],
   });
 
   // 2️⃣ If no recipes found, return 404

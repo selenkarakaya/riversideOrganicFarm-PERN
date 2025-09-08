@@ -140,20 +140,20 @@ const userSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.profileStatus = "failed";
         state.profileError = action.payload;
-      }) // Profil güncelleme
+      })
       .addCase(updateProfile.pending, (state) => {
         state.updateStatus = "loading";
         state.updateError = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
-        state.userInfo = action.payload;
+        state.userInfo = action.payload.user;
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.updateStatus = "failed";
         state.updateError = action.payload;
       })
-      // Parola değiştirme
+
       .addCase(changePassword.pending, (state) => {
         state.passwordStatus = "loading";
         state.passwordError = null;

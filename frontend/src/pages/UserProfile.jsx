@@ -5,22 +5,21 @@ import { GoCommentDiscussion } from "react-icons/go";
 import { BiEditAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { logoutUser } from "../features/user/userSlice";
+import { logoutUser, updateProfile } from "../features/user/userSlice";
+import UserInfo from "../components/UserInfo";
+import RecipeForm from "../components/RecipeForm";
 
 function UserProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [changeDetails, setChangeDetails] = useState(false);
-
   const { userInfo } = useSelector((state) => state.user);
-
-  const firstName =
-    userInfo.full_name.split(" ")[0].charAt(0).toUpperCase() +
-    userInfo.full_name.split(" ")[0].slice(1).toLowerCase();
-
+  const [selectedTab, setSelectedTab] = useState("orders"); // 'profile' | 'orders'
   const handleLogout = () => {
     if (!userInfo) return;
+    const firstName =
+      userInfo?.full_name.split(" ")[0].charAt(0).toUpperCase() +
+      userInfo?.full_name.split(" ")[0].slice(1).toLowerCase();
     toast(`Goodbye ${firstName} 👋`);
     dispatch(logoutUser())
       .unwrap()
@@ -33,9 +32,31 @@ function UserProfile() {
   };
 
   return (
-    <div className="mb-5">
-      <header className="flex items-center space-x-8">
+    <div className="flex flex-col  md:items-center  mx-auto mt-10 p-6 gap-6 shadow rounded">
+      <header className="flex items-center justify-center space-x-8 font-semibold w-full ">
         <p className="pl-2 text-xl">My Account • </p>
+        <button
+          onClick={() => setSelectedTab("profile")}
+          aria-current={selectedTab === "profile" ? "page" : undefined}
+          className={`px-4 py-2 rounded-md cursor-pointer w-full md:w-auto text-center ${
+            selectedTab === "profile"
+              ? "bg-terracotta text-white"
+              : "bg-gray-200 text-gray-700 border border-terracotta"
+          }`}
+        >
+          Profile
+        </button>
+        <button
+          onClick={() => setSelectedTab("orders")}
+          aria-current={selectedTab === "orders" ? "page" : undefined}
+          className={`px-4 py-2 rounded-md cursor-pointer w-full md:w-auto text-center ${
+            selectedTab === "orders"
+              ? "bg-terracotta text-white"
+              : "bg-gray-200 text-gray-700 border border-terracotta"
+          }`}
+        >
+          Orders
+        </button>
         <Link
           to="/Feedback"
           className="text-xl text-greens flex items-center space-x-2"
@@ -50,26 +71,20 @@ function UserProfile() {
           <BiEditAlt />
           <p> Contact •</p>
         </Link>
-        <p
-          className="cursor-pointer text-greens text-xl"
-          onClick={() => {
-            //changeDetails && onSubmit();
-            setChangeDetails((prevState) => !prevState);
-          }}
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="text-terracotta font-bold border-b border-terracotta px-4 py-2 hover:scale-105 cursor-pointer w-full md:w-auto text-center"
         >
-          {changeDetails ? "Done • " : "Change Details • "}
-        </p>
-        <div className="flex items-center bg-mediumOrange rounded-lg px-2 py-2 space-x-1 hover:scale-105 hover:bg-greens hover:text-mediumOrange">
-          <FiLogOut style={{ color: "white", fontSize: "1.2rem" }} />
-          <button
-            type="button"
-            className=" text-white animate-bounce"
-            onClick={handleLogout}
-          >
-            Log out
-          </button>
-        </div>
+          Logout
+        </button>
       </header>
+
+      {/* Content Section */}
+      <section aria-labelledby="profile-heading" className="w-full md:w-3/4">
+        {selectedTab === "profile" && <UserInfo />}
+        {selectedTab === "orders" && <RecipeForm />}
+      </section>
     </div>
   );
 }

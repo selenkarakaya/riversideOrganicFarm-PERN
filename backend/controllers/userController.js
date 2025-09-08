@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // @route   POST /api/users/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { email, password, full_name, phone, address } = req.body;
+  const { email, password, full_name, phone_number, address } = req.body;
 
   // 1️⃣ Input validation: check required fields
   if (!full_name || !email || !password) {
@@ -31,14 +31,14 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password_hash: hashedPassword, // store hashed password
     full_name,
-    phone,
+    phone_number,
     address,
   });
 
   // 5️⃣ Send response with user info (excluding password)
   res.status(201).json({
     message: "User registered",
-    user: { id: newUser.id, email, full_name, phone, address },
+    user: { id: newUser.id, email, full_name, phone_number, address },
   });
 });
 
@@ -93,6 +93,8 @@ const loginUser = asyncHandler(async (req, res) => {
       id: user.id,
       full_name: user.full_name,
       email: user.email,
+      phone_number: user.phone_number,
+      address: user.address,
     },
   });
 });
@@ -106,7 +108,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
   // 2️⃣ Find user by primary key (id) and select only needed fields
   const user = await User.findByPk(req.user.id, {
-    attributes: ["id", "full_name", "email", "role"], // select specific fields
+    attributes: ["id", "full_name", "email", "role", "phone_number", "address"], // select specific fields
   });
 
   // 3️⃣ If user not found, return 404
@@ -116,14 +118,21 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 
   // 4️⃣ Send user profile data
-  res.json(user);
+  res.json({
+    id: user.id,
+    full_name: user.full_name,
+    email: user.email,
+    role: user.role,
+    phone_number: user.phone_number,
+    address: user.address,
+  });
 });
 
 // @desc    Update logged-in user's profile (name, email, phone, address)
 // @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const { email, full_name, phone, address } = req.body;
+  const { email, full_name, phone_number, address } = req.body;
 
   // 1️⃣ Find user by id from JWT (req.user)
   const user = await User.findByPk(req.user.id);
@@ -135,7 +144,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   // 2️⃣ Update fields if provided, else keep existing values
   user.email = email || user.email;
   user.full_name = full_name || user.full_name;
-  user.phone = phone || user.phone;
+  user.phone_number = phone_number || user.phone_number;
   user.address = address || user.address;
 
   // 3️⃣ Save updated user to database
@@ -148,7 +157,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       id: user.id,
       full_name: user.full_name,
       email: user.email,
-      phone: user.phone,
+      phone_number: user.phone_number,
       address: user.address,
     },
   });

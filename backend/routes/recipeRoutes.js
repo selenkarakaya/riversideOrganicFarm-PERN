@@ -8,6 +8,7 @@ const {
   deleteRecipe,
   updateRecipe,
   getRecipesByCategory,
+  getMyRecipes,
 } = require("../controllers/recipeController");
 
 const {
@@ -15,6 +16,7 @@ const {
 } = require("../controllers/ingredientsController");
 
 router.get("/", getRecipes);
+router.get("/my", protect, getMyRecipes);
 router.get("/:id", getRecipeById);
 router.post("/", protect, createRecipe);
 router.delete("/:id", protect, deleteRecipe);

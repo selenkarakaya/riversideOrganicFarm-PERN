@@ -1,27 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { getRecipes } from "../features/recipe/recipeSlice";
+import {
+  getRecipes,
+  getRecipesByCategory,
+} from "../features/recipe/recipeSlice";
 import RecipeItem from "./RecipeItem";
 import LoadingSpinner from "./LoadingSpinner";
 import ExpandableText from "../utils/ExpandableText";
 import { paginate } from "../utils/pagination";
-//import Spinner from "../components/layouts/Spinner";
-//import RecipeItem from "./RecipeItem";
-
-import { BiBowlHot } from "react-icons/bi";
+import { useParams } from "react-router-dom";
 
 function RecipeResults() {
+  const { categoryId } = useParams();
+  const categories = useSelector((state) => state.categories.items);
   const dispatch = useDispatch();
   const {
     items: recipes,
     status,
     error,
   } = useSelector((state) => state.recipes);
+
+  const selectedCategory = categories.find(
+    (cat) => cat.id.toString() === categoryId
+  );
   useEffect(() => {
-    if (status === "idle") {
+    if (categoryId) {
+      dispatch(getRecipesByCategory(categoryId));
+    } else {
       dispatch(getRecipes());
     }
-  }, [dispatch, status]);
+  }, [dispatch, categoryId]);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20;
@@ -60,7 +68,7 @@ function RecipeResults() {
   return (
     <main className="my-8 max-w-screen-xl mx-auto px-4">
       {/* Category Info */}
-      {/* <section
+      <section
         aria-labelledby="category-title"
         className="flex flex-col items-center text-center max-w-xl mx-auto mb-10"
       >
@@ -68,7 +76,7 @@ function RecipeResults() {
           {selectedCategory?.name}
         </h1>
         <ExpandableText text={selectedCategory?.description} limit={120} />
-      </section> */}
+      </section>
 
       {/* Recipe Grid */}
       <section

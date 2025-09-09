@@ -17,6 +17,10 @@ const getRecipes = asyncHandler(async (req, res) => {
       "cook_minutes",
       "description",
     ],
+    include: {
+      model: Ingredient,
+      attributes: ["id", "name", "amount", "unit"],
+    },
   });
 
   // 2️⃣ If no recipes found, return 404
@@ -36,7 +40,7 @@ const getRecipeById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   // 2️⃣ Find recipe by primary key (ID)
-  const recipe = await Recipe.findByPk(id);
+  const recipe = await Recipe.findByPk(id, { include: { model: Category } });
 
   // 3️⃣ If recipe not found, return 404
   if (!recipe) {
@@ -46,29 +50,6 @@ const getRecipeById = asyncHandler(async (req, res) => {
   // 4️⃣ Send recipe as JSON response
   res.json(recipe);
 });
-
-// const createRecipe = asyncHandler(async (req, res) => {
-//   const { title, description, servings, prep_minutes, cook_minutes } = req.body;
-
-//   if (!title || servings == null) {
-//     return res.status(400).json({ message: "Title and servings are required" });
-//   }
-
-//   try {
-//     const newRecipe = await Recipe.create({
-//       title,
-//       description,
-//       servings,
-//       prep_minutes,
-//       cook_minutes,
-//       user_id: req.user.id,
-//     });
-//     res.status(201).json(newRecipe);
-//   } catch (err) {
-//     console.error(err.errors); // hangi alan hatalı
-//     res.status(500).json({ message: "Validation error", details: err.errors });
-//   }
-// });
 
 // @desc    Create a new recipe (with optional ingredients)
 // @route   POST /api/recipes
@@ -139,7 +120,7 @@ const deleteRecipe = asyncHandler(async (req, res) => {
   // 3️⃣ Ensure only the owner can delete the recipe
   if (recipe.user_id !== req.user.id) {
     res.status(403);
-    throw new Error("Not authorized to delete this recipe");
+    throw new Error("You are not authorized to delete this recipe");
   }
 
   // 4️⃣ Delete the recipe from the database
@@ -222,6 +203,24 @@ const getRecipesByCategory = asyncHandler(async (req, res) => {
   res.json(category.Recipes);
 });
 
+// @desc    Get recipes created by logged-in user
+// @route   GET /api/recipes/my
+// @access  Private
+const getMyRecipes = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const recipes = await Recipe.findAll({
+    where: { user_id: userId },
+    include: {
+      model: Ingredient,
+      attributes: ["id", "name", "amount", "unit"],
+    },
+    order: [["created_at", "DESC"]],
+  });
+
+  res.json(recipes);
+});
+
 module.exports = {
   getRecipes,
   getRecipeById,
@@ -229,4 +228,5 @@ module.exports = {
   deleteRecipe,
   updateRecipe,
   getRecipesByCategory,
+  getMyRecipes,
 };

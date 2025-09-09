@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/user/userSlice";
 import { useNavigate, Link } from "react-router-dom";
-
 import arrowRightIcon from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -38,7 +37,7 @@ function SignUp() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/"); // kayıt sonrası anasayfa
+      navigate("/");
     }
   }, [userInfo, navigate]);
 

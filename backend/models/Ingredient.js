@@ -28,7 +28,9 @@ const Ingredient = sequelize.define(
   },
   {
     tableName: "ingredients",
-    timestamps: false,
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
 

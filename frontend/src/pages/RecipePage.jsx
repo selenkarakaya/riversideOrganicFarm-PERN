@@ -2,22 +2,22 @@ import RecipeResults from "../components/RecipeResults";
 import RecipeSearch from "../components/RecipeSearch";
 import { Link } from "react-router-dom";
 import Title from "../assets/Title";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../features/category/categorySlice";
+import CategoriesSidebar from "../components/CategoriesSidebar";
 
 function RecipePage() {
   Title("Easy, Delicious & Fast Recipes");
 
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.items);
+
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  console.log(categories);
   return (
     <>
       <div className="flex flex-col items-center mb-10 hover:scale-110">
@@ -36,7 +36,7 @@ function RecipePage() {
             recipes?
           </p>
           {userInfo ? (
-            <Link to="/CreateOwnRecipe">
+            <Link to="/RecipeForm">
               <button className=" bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-4 rounded">
                 Click&Create Own Recipe
               </button>
@@ -66,6 +66,7 @@ function RecipePage() {
           )}
         </div>
       </div>
+      <CategoriesSidebar />
       <RecipeResults />
     </>
   );

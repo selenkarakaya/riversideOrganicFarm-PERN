@@ -55,20 +55,19 @@ const Recipe = sequelize.define(
   },
   {
     tableName: "recipes",
-    timestamps: false,
-    hooks: {
-      beforeUpdate: (recipe) => {
-        recipe.updated_at = new Date();
-      },
-    },
+    timestamps: true,
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   }
 );
 
 Recipe.belongsTo(User, { foreignKey: "user_id" });
+
 Recipe.belongsToMany(Category, {
   through: RecipeCategory,
   foreignKey: "recipe_id",
 });
+
 Category.belongsToMany(Recipe, {
   through: RecipeCategory,
   foreignKey: "category_id",

@@ -12,12 +12,17 @@ import HowItWorks from "./pages/HowItWorks";
 import RecipePage from "./pages/RecipePage";
 import OurRecipes from "./components/OurRecipes";
 import YourRecipes from "./pages/YourRecipes";
-import CreateOwnRecipe from "./components/CreateOwnRecipe";
+
 import GiftCards from "./pages/GiftCards";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./utils/PrivateRoute";
+import RecipeDetailPage from "./pages/RecipeDetailPage";
+import RecipeResults from "./components/RecipeResults";
+
+import CreateOwnRecipe from "./components/CreateOwnRecipe";
+import RecipeForm from "./components/RecipeForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,13 +54,21 @@ function App() {
           <Route path="/OurRecipes" element={<OurRecipes />} />
           <Route path="/YourRecipes" element={<YourRecipes />} />
           <Route path="/CreateOwnRecipe" element={<CreateOwnRecipe />} />
+          <Route path="/RecipeForm" element={<RecipeForm />} />
           <Route path="/GiftCards" element={<GiftCards />} />
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route element={<PrivateRoute />}>
             <Route path="/Profile" element={<UserProfile />} />
           </Route>
+          <Route path="/recipes/:id" element={<RecipeDetailPage />} />
+          <Route
+            path="/recipes/category/:categoryId"
+            element={<RecipeResults />}
+          />
+          <Route path="/recipes" element={<RecipeResults />} />
         </Routes>
+
         <Footer />
       </Router>
       <ToastContainer

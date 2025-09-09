@@ -44,9 +44,8 @@ function YourRecipes() {
 
       {showModal && (
         <>
-          {/* Blur arka plan - transition ile */}
+          {/* Blurring b arka plan - transition ile */}
           <div className="fixed inset-0 backdrop-blur-sm transition-all duration-500 z-40 pointer-events-none"></div>
-
           {/* Modal - fade in */}
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div
